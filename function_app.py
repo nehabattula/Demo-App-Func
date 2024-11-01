@@ -4,14 +4,12 @@ import os
 import logging
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 openai_api_key = os.getenv('OPENAI_API_KEY')
 
-# Create a single function app instance
+# single function app instance
 app = func.FunctionApp()
 
-# Define one route, handle both functionalities in a single function
 @app.route(route="HttpTrigger", auth_level=func.AuthLevel.ANONYMOUS)
 def HttpTrigger(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Processing request.')
@@ -20,7 +18,7 @@ def HttpTrigger(req: func.HttpRequest) -> func.HttpResponse:
     repo_url = req.params.get('repoUrl')
     if repo_url:
         try:
-            # Fetch Golang code from Stash URL
+            # Fetch golang code from stash
             response = requests.get(repo_url)
             logging.info(f"Fetched code from stash: {response.text}")
             code = response.text
